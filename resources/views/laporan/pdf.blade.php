@@ -65,8 +65,26 @@
         </tbody>
     </table>
 
-    <div class="total-box">
-        Total Pendapatan: Rp {{ number_format($totalUangMasuk, 0, ',', '.') }}
+    <div class="total-box" style="text-align: right;">
+        <table style="width: 100%; border: none; margin-top: 0;">
+            <tr>
+                <td style="border: none; text-align: right; padding: 2px;">Pendapatan dari Pekerjaan Selesai :</td>
+                <td style="border: none; text-align: right; padding: 2px; width: 150px;">Rp {{ number_format($uangSelesai, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td style="border: none; text-align: right; padding: 2px;">Pendapatan dari Pekerjaan Tertunda :</td>
+                <td style="border: none; text-align: right; padding: 2px;">Rp {{ number_format($uangBelum, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border: none; padding: 5px 0;">
+                    <hr style="border: 0; border-top: 1px solid #333; margin: 0;">
+                </td>
+            </tr>
+            <tr>
+                <td style="border: none; text-align: right; padding: 5px 2px; font-size: 14px;"><strong>Total Pendapatan Keseluruhan :</strong></td>
+                <td style="border: none; text-align: right; padding: 5px 2px; font-size: 14px;"><strong>Rp {{ number_format($totalUangMasuk, 0, ',', '.') }}</strong></td>
+            </tr>
+        </table>
     </div>
 
 </body>
