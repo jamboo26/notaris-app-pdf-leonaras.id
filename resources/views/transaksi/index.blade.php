@@ -83,6 +83,8 @@
                                         <div class="flex justify-center items-center gap-2">
                                             <a href="{{ route('trx.show', $trx->id) }}" class="bg-indigo-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-indigo-700 shadow-sm whitespace-nowrap">Lihat & Update</a>
 
+                                            <a href="{{ route('trx.edit', $trx->id) }}" class="bg-amber-500 text-white px-3 py-1.5 rounded-md text-xs font-semibold hover:bg-amber-600 shadow-sm whitespace-nowrap">Edit</a>
+
                                             @role('Admin')
                                             <form action="{{ route('trx.destroy', $trx->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');" class="inline">
                                                 @csrf

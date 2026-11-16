@@ -34,5 +34,13 @@
                 {{ $slot }}
             </main>
         </div>
+        <script>
+            function formatRibuan(input) {
+                // Hapus semua karakter selain angka
+                let angka = input.value.replace(/[^0-9]/g, '');
+                // Tambahkan titik setiap 3 digit dari belakang
+                input.value = angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+        </script>
     </body>
 </html>

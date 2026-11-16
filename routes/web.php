@@ -1,35 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    $user = auth()->user();
-
-    // Jika user adalah Manager atau Admin, arahkan ke Daftar Transaksi
-    if ($user->hasAnyRole(['Manager', 'Admin'])) {
-        return redirect()->route('trx.index');
-    }
-
-    // Jika user adalah Notaris, arahkan langsung ke Laporan Keuangan
-    if ($user->hasRole('Notaris')) {
-        return redirect()->route('laporan.keuangan');
-    }
-
-    // Fallback jika role belum diatur
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [TransactionController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Rute khusus sistem Notaris
 Route::middleware('auth')->group(function () {
 
-// Khusus Manager & Admin (Input, Edit, Update Status)
+    // Khusus Manager & Admin (Input, Edit, Update Status)
     Route::middleware(['role:Manager|Admin'])->group(function () {
         Route::get('/transaksi/input-1', [TransactionController::class, 'createStep1'])->name('trx.step1');
         Route::post('/transaksi/input-1', [TransactionController::class, 'storeStep1'])->name('trx.store1');
@@ -41,12 +28,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/transaksi/detail/{id}', [TransactionController::class, 'show'])->name('trx.show');
         Route::patch('/transaksi/detail/{id}/status', [TransactionController::class, 'updateStatus'])->name('trx.updateStatus');
 
-        // (Rute delete sudah dihapus dari sini)
-    });
-
-    // TAMBAHAN BARU: Khusus HANYA Admin (Delete)
-    Route::middleware(['role:Admin'])->group(function () {
-        Route::delete('/transaksi/{id}', [TransactionController::class, 'destroy'])->name('trx.destroy');
+        // TAMBAHAN BARU: Rute Edit & Update Transaksi
+        Route::get('/transaksi/{id}/edit', [TransactionController::class, 'edit'])->name('trx.edit');
+        Route::put('/transaksi/{id}', [TransactionController::class, 'update'])->name('trx.update');
     });
 
     // Khusus HANYA Admin (Delete Transaksi & Manajemen User)
